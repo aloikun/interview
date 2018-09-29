@@ -16,14 +16,12 @@ JAVA后台开发面试常见问题总结
 1.12	双亲委派模式有了解吗？  -----中
 1.13	内部类的特点，有什么好处。  -----中
 1.14	多线程： -----中
-​	
-	创建线程的三种方式
-		继承Thread
-		实现Runnable接口
-		excuter会创建一个线程池，可以去里面拿
-	其他：
-		用户访问其实就是多线程并发。
-	     项目中的使用：
+​创建线程的三种方式  ：继承Thread
+​		实现Runnable接口
+​		excuter会创建一个线程池，可以去里面拿
+​	其他：
+​		用户访问其实就是多线程并发。
+​	     项目中的使用：
 Hibernate中的sessionFactory是一个单例多线程对象
 ​		sessionFactory是线程安全的，多个线程可以并发访问sessionFactory，
 ​			从而获取Session实例。
@@ -232,31 +230,31 @@ servlet，当JSP页面首次被访问时，容器(Tomcat)会先把JSP编译成Se
 单例模式只生成一个实例，所以减少了系统的性能开销，当一个对象的产生需要
 比较多的资源时，如读取配置、产生其他依赖对象时，则可以通过在应用启动时
 直接产生一个单例对象，然后用永久驻留内存的方式来解决。
-	hibernate中，sessionFactory就是单例模式。
-	spring中的bean在加载的时候会自动初始化一个实例，然后每次调用bean的时候，对象是注入的，而不是重新new。因此整个系统都是这个实例
-			`<bean scope=singleton>`	默认单例,需要多里设置为scope=prototype
-			3.9.2	单例模式代码
-	饿汉：直接new一个对象(避免多线程问题，初始化就实例化，占据内存)
-	懒汉：if(实例是空)==>进入静态锁方法==>判断实例是空==>获取实例
-			​	public static Singleton getInstance() {
-			​		if (singleton == null) {
-			​			synchronized (Singleton.class) {
-			​			   if (singleton == null) {
-			​				  singleton = new Singleton();
-			​			   }
-			​			}
-			​		}
-			​		return singleton;
-			​	}
-	静态内部类：(new的时候用静态最终，get方法也用静态最终!!!)
-	本类不静态，内部类静态最终
-			​	private static class LazyHolder {
-			​	   private static final Singleton INSTANCE = new Singleton();
-			​	}
-			​	public static final Singleton getInstance() {
-			​	   return LazyHolder.INSTANCE;
-			​	}
-	 (静态内部类也是有一定的性能消耗)
+​	hibernate中，sessionFactory就是单例模式。
+​	spring中的bean在加载的时候会自动初始化一个实例，然后每次调用bean的时候，对象是注入的，而不是重新new。因此整个系统都是这个实例
+​			`<bean scope=singleton>`	默认单例,需要多里设置为scope=prototype
+​			3.9.2	单例模式代码
+​	饿汉：直接new一个对象(避免多线程问题，初始化就实例化，占据内存)
+​	懒汉：if(实例是空)==>进入静态锁方法==>判断实例是空==>获取实例
+​			​	public static Singleton getInstance() {
+​			​		if (singleton == null) {
+​			​			synchronized (Singleton.class) {
+​			​			   if (singleton == null) {
+​			​				  singleton = new Singleton();
+​			​			   }
+​			​			}
+​			​		}
+​			​		return singleton;
+​			​	}
+​	静态内部类：(new的时候用静态最终，get方法也用静态最终!!!)
+​	本类不静态，内部类静态最终
+​			​	private static class LazyHolder {
+​			​	   private static final Singleton INSTANCE = new Singleton();
+​			​	}
+​			​	public static final Singleton getInstance() {
+​			​	   return LazyHolder.INSTANCE;
+​			​	}
+​	 (静态内部类也是有一定的性能消耗)
 
 3.10	责任链模式(Chain of Responsibility)
 ​	例子：
@@ -809,12 +807,12 @@ data文件夹就是存储索引文件的目录。
 ​				在内存中累计调用次数和调用时间
 ​		consumer(订阅服务)-->registry-->provider(提供服务)(Container)
 ​		
-	zookeeper(负载均衡)
-		可以对集群进行管理
-		根据权重选举master。
-		zookeeper在每个机器启动的时候，都会创建一个节点。
-			一旦master挂掉，节点消失，zookeeper就会收到通知。
-			zookeeper就会从slave中选出一个master顶上来干活
+​	zookeeper(负载均衡)
+​		可以对集群进行管理
+​		根据权重选举master。
+​		zookeeper在每个机器启动的时候，都会创建一个节点。
+​			一旦master挂掉，节点消失，zookeeper就会收到通知。
+​			zookeeper就会从slave中选出一个master顶上来干活
 
 7.10	消息队列(ActiveMQ) -----中
 7.10.1		消息队列可以削峰，
@@ -825,12 +823,12 @@ data文件夹就是存储索引文件的目录。
 ​	消息队列设计一个简易的双人聊天程序(一个服务器，两个客户端)。
 ​	消息队列重点在于消息类型的匹配，客户端和服务端的“通信协议”的设计。
 ​		
-	服务器端：接受客户端发来的任何消息，并根据其消息类型，
-		转发给对应的客户端。同时，检测是否有退出标记，
-		有则给所有的客户端发送退出标记，等待1s后，
-		确定客户端都退出，删除消息队列，释放空间，并退出。
-	客户端：A和B。A给B发送信息，先发给服务器，由服务器根据自定义协议
-		转发该消息给B。同时B也可以通过服务器给A发消息
+​	服务器端：接受客户端发来的任何消息，并根据其消息类型，
+​		转发给对应的客户端。同时，检测是否有退出标记，
+​		有则给所有的客户端发送退出标记，等待1s后，
+​		确定客户端都退出，删除消息队列，释放空间，并退出。
+​	客户端：A和B。A给B发送信息，先发给服务器，由服务器根据自定义协议
+​		转发该消息给B。同时B也可以通过服务器给A发消息
 
 7.11	怎么处理redis高并发延迟更新问题-----高
 ​	为什么出现并发：(单线程)
